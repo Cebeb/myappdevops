@@ -1,0 +1,32 @@
+version: "3"
+
+services:
+        web:
+                build: .
+                #image: "562119/firstapp:2.0"
+                container_name: webapp01
+                environment:
+                        - MESSAGE=Usando Variavel de Ambiente para Mudar a Mensagem do site!
+                networks:
+                        labdocker:
+                                ipv4_address: 172.20.0.2
+                ports:
+                        - "80:80"
+
+        redis:
+                image: redis
+                container_name: redis01
+                ports:
+                        - "6379:6379"
+                volumes:
+                        - "/srv/redis/data:/data"
+                command: "redis-server --appendonly yes"
+                networks:
+                        labdocker:
+                                ipv4_address: 172.20.0.3
+
+networks:
+        labdocker:
+                ipam:
+                        config:
+                                - subnet: 172.20.0.0/24
